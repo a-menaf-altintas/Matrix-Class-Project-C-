@@ -2,10 +2,12 @@
 
 #ifndef  _MATRIX_REAL_HPP_
 #define  _MATRIX_REAL_HPP_
-
+#include <iostream>
+#include <string>
 // STL Containers of the Vector and Array can be used. I will use std::vector
 #include <vector> 
 //#include <valarray>
+
 
 
 template <class T>  // will take care of data structures
@@ -64,22 +66,7 @@ class RMatrix{
     // Vector can be only multiplied from right
     // Operations Overloading
     std::vector<T> operator*(const std::vector<T> &rhs); // matrix2 = matrix1 * vector
-
-
-
-
-
-
-    // RMatrix<T> transpose(); // take the transpose of a matrix
-
-
-
-
-
 };
-
-
-
 
 
 /************************< IMPLEMENTATION OF CLASS ATRIBUTES FUCNTIONS AND OPERATORS >***********************************************/
@@ -103,7 +90,7 @@ RMatrix<T>::RMatrix(const RMatrix<T> &rhs) {
   ncols = rhs.get_ncols();
 }
 
-// (Virtual) Destructor                                                                                                                                                       
+// Destructor                                                                                                                                                       
 template<class T>
 RMatrix<T>::~RMatrix() {}
 
@@ -359,9 +346,22 @@ RMatrix<T> RMatrix<T>::operator/(const T &rhs) {
 // Multiplication operation of a MATRIX with a vector: matrix1 = matrix1 * vector
 // Multiplication will return a vector
 
+template<class T>
+std::vector<T> RMatrix<T>::operator*(const std::vector<T> &rhs) {
+  if (this->get_ncols() != rhs.size())
+   throw std::invalid_argument("\n\nDimension error! Matrix and vector dimensions do not agree!\n\n");
+  
+  std::vector<T> new_vector(rhs.size(), 0.0); // A new vector will be created after multiplication
 
+    for (unsigned i=0; i<nrows; i++) {
+        for (unsigned j=0; j<ncols; j++) {
+        new_vector[i] = this->matrix[i][j] * rhs[j];
+    }
+  }
 
+  return new_vector;
 
+}
 
 
 #endif  // end _REAL_MATRIX_HPP_

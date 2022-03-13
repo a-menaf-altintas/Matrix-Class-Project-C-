@@ -23,6 +23,19 @@ int main(int argc, char **argv) {
   double a = 4.0;
   E = A / a; 
 
+  int length = E.get_ncols();
+  //length++;
+  std::vector<double> v(length, 2.0);
+
+  std::vector<double> new_vec = A * v; // Matrix vector multiplication
+
+  std::cout << std::endl;
+  for (unsigned i=0; i<C.get_nrows(); i++) {
+      std::cout << v[i] << " ";
+    }
+   std::cout << std::endl;
+   std::cout << std::endl;
+
 
   for (unsigned i=0; i<C.get_nrows(); i++) {
     for (unsigned j=0; j<C.get_ncols(); j++) {
