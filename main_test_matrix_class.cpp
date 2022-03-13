@@ -25,6 +25,7 @@ int main(int argc, char **argv) {
 
   int length = E.get_ncols();
   //length++;
+  //length--;
   std::vector<double> v(length, 2.0);
 
   std::vector<double> new_vec = A * v; // Matrix vector multiplication
