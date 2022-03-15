@@ -1,3 +1,2 @@
 # Matrix-Class-Project-C++
- It is written in C++. This is a matrix class. It contains the matrix operations and properties.
-
+This is a matrix class and is written in C++. It contains the matrix operations and properties. Please check the header file matrix_real.hpp for the source code and main_test_matrix_class.cpp for the implementation.
