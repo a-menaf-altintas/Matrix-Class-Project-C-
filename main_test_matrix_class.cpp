@@ -15,12 +15,12 @@ int main(int argc, char **argv) {
   RMatrix<double> B(m, m, 3.1);
 
 
-  RMatrix<double> C = A + B;
+  RMatrix<double> C = A - B;
   RMatrix<double> D = C;
 
-  A += B;
+  A -= B;
   C(0,0) = 3.0;
-  C -= A;
+
 
   RMatrix<double> E = A;
   double a = 4.0;
@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
 
   for (unsigned i=0; i<C.get_nrows(); i++) {
     for (unsigned j=0; j<C.get_ncols(); j++) {
-      std::cout << E(i,j) << " ";
+      std::cout << C(i,j) << " ";
     }
     std::cout << std::endl;
   }
