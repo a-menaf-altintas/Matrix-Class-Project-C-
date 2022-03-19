@@ -1,6 +1,6 @@
 // This is a test file to test our matrix class
 
-#include "matrix_real.hpp"
+#include "matrix_real.h"
 #include <iostream>
 #include <complex>
 #include <cmath>
@@ -10,12 +10,15 @@ using namespace std::complex_literals;
 
 int main(int argc, char **argv) {
   int n=3;
+  int m=3;
   RMatrix<double> A(n, n, 5.0);
-  RMatrix<double> B(n, n, 2.0);
+  RMatrix<double> B(m, m, 3.1);
 
 
   RMatrix<double> C = A + B;
   RMatrix<double> D = C;
+
+  A += B;
   C(0,0) = 3.0;
   C -= A;
 
@@ -47,9 +50,9 @@ int main(int argc, char **argv) {
 
   std::cout <<std::endl;
 
-  for (unsigned i=0; i<D.get_nrows(); i++) {
-    for (unsigned j=0; j<D.get_ncols(); j++) {
-      std::cout << D(i,j) << " ";
+  for (unsigned i=0; i<A.get_nrows(); i++) {
+    for (unsigned j=0; j<A.get_ncols(); j++) {
+      std::cout << A(i,j) << " ";
     }
     std::cout << std::endl;
   }

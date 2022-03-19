@@ -39,8 +39,9 @@ class RMatrix{
 
     // Basic binary aritmethic operation of a MATRIX with another MATRIX 
     // Operations Overloading
-    RMatrix<T> operator+(const RMatrix<T> &rhs); // matrix3 = matrix1 + matrix2
-    RMatrix<T> &operator+=(const RMatrix<T> &rhs); // matrix1 = matrix1 + matrix2
+    template <class Y> friend RMatrix<Y> operator+(const RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix3 = matrix1 + matrix2
+    template <class Y> friend RMatrix<Y> &operator+=( RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix1 = matrix1 + matrix2
+
     RMatrix<T> operator-(const RMatrix<T> &rhs); // matrix3 = matrix1 - matrix2
     RMatrix<T> &operator-=(const RMatrix<T> &rhs); // matrix1 = matrix1 - matrix2
     RMatrix<T> operator*( const RMatrix<T> &rhs); // matrix3 = matrix1 * matrix2
@@ -54,10 +55,10 @@ class RMatrix{
     template <class Y> friend RMatrix<Y> operator+(const Y &lhs, const RMatrix<Y> &rhs); // matrix2 = scalar + matrix1 
 
     RMatrix<T> operator-(const T &rhs); // matrix2 = matrix1 - scalar 
-    template <class Y> friend RMatrix<Y> operator-(const Y &lhs, const RMatrix<Y> &rhs); //matrix1 =  scalar - matrix1
+    template <class Y> friend RMatrix<Y> operator-(const Y &lhs, const RMatrix<Y> &rhs); //matrix2 =  scalar - matrix1
     
     RMatrix<T> operator*(const T &rhs); // matrix2 = matrix1 * scalar
-    template <class Y> friend RMatrix<Y> operator*(const Y &lhs, const RMatrix<Y> &rhs); //matrix1 =  scalar * matrix1
+    template <class Y> friend RMatrix<Y> operator*(const Y &lhs, const RMatrix<Y> &rhs); //matrix2 =  scalar * matrix1
 
 
     RMatrix<T> operator/(const T &rhs); // matrix2 = matrix1 / scalar 
@@ -147,31 +148,46 @@ RMatrix<T> &RMatrix<T>::operator=(const RMatrix<T> &rhs) {
 
 // Addition operation of a MATRIX with another MATRIX: matrix3 = matrix1 + matrix2                                                                                                                                                 
 template<class T>
-RMatrix<T> RMatrix<T>::operator+(const RMatrix<T> &rhs) {
-  RMatrix new_matrix(nrows, ncols, 0.0); // A new matrix will be created after addition
+RMatrix<T> operator+(const RMatrix<T> &lhs, const RMatrix<T> &rhs){
+  if (rhs.get_nrows() != lhs.get_nrows() && rhs.get_ncols() != lhs.get_ncols()){
+    std::cerr<<"\n\nDimension error while addition of two matrices! << ADDITION: C = A + B >> \n\n" <<
+    "Dimensions of A matrix are not equal to dimensions of B matrix!\n\n"<<std::endl;
+    exit(1);}
+  
+  unsigned nrows = rhs.get_nrows();
+  unsigned ncols = rhs.get_ncols();
+  RMatrix<T> new_matrix(nrows, ncols, 0.0); // A new matrix will be created after addition
 
-  for (unsigned i=0; i<nrows; i++) {
+  for (unsigned i=0; i<nrows; i++) { 
     for (unsigned j=0; j<ncols; j++) {
-      new_matrix(i,j) = this->matrix[i][j] + rhs(i,j);
+      new_matrix(i,j) = lhs(i,j) + rhs(i,j);
     }
   }
 
   return new_matrix;
 }
 
+
+
+
+
 // Addition operation of a MATRIX with another MATRIX: matrix1 = matrix1 + matrix2: matrix1 += matrix2
 template<class T>
-RMatrix<T> &RMatrix<T>::operator+=(const RMatrix<T> &rhs) {
+RMatrix<T> &operator+=( RMatrix<T> &lhs, const RMatrix<T> &rhs){
+  if (rhs.get_nrows() != lhs.get_nrows() && rhs.get_ncols() != lhs.get_ncols()){
+    std::cerr<<"\n\nDimension error while addition of two matrices!  << ADDITION: A +=  B >> \n\n" <<
+    "Dimensions of A matrix are not equal to dimensions of B matrix!\n\n"<<std::endl;
+    exit(1);}
     unsigned nrows = rhs.get_nrows();
     unsigned ncols = rhs.get_ncols();
 
     for (unsigned i=0; i<nrows; i++) {
         for (unsigned j=0; j<ncols; j++) {
-        this->matrix[i][j] = this->matrix[i][j] + rhs(i,j);
+        lhs(i,j) = lhs(i,j) + rhs(i,j);
     }
   }
 
-  return *this;
+  return lhs;
 }
 
 
