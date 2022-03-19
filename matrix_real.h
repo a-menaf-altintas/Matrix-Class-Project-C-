@@ -151,7 +151,7 @@ RMatrix<T> &RMatrix<T>::operator=(const RMatrix<T> &rhs) {
 // Addition operation of a MATRIX with another MATRIX: matrix3 = matrix1 + matrix2                                                                                                                                                 
 template<class T>
 RMatrix<T> operator+(const RMatrix<T> &lhs, const RMatrix<T> &rhs){
-  if (rhs.get_nrows() != lhs.get_nrows() && rhs.get_ncols() != lhs.get_ncols()){
+  if (rhs.get_nrows() != lhs.get_nrows() || rhs.get_ncols() != lhs.get_ncols()){
     std::cerr<<"\n\nDimension error while addition of two matrices! << ADDITION: C = A + B >> \n\n" <<
     "Dimensions of A matrix are not equal to dimensions of B matrix!\n\n"<<std::endl;
     exit(1);}
@@ -176,7 +176,7 @@ RMatrix<T> operator+(const RMatrix<T> &lhs, const RMatrix<T> &rhs){
 // Addition operation of a MATRIX with another MATRIX: matrix1 = matrix1 + matrix2: matrix1 += matrix2
 template<class T>
 RMatrix<T> &operator+=( RMatrix<T> &lhs, const RMatrix<T> &rhs){
-  if (rhs.get_nrows() != lhs.get_nrows() && rhs.get_ncols() != lhs.get_ncols()){
+  if (rhs.get_nrows() != lhs.get_nrows()  ||  rhs.get_ncols() != lhs.get_ncols()){
     std::cerr<<"\n\nDimension error while addition of two matrices!  << ADDITION: A +=  B >> \n\n" <<
     "Dimensions of A matrix are not equal to dimensions of B matrix!\n\n"<<std::endl;
     exit(1);}
@@ -196,7 +196,7 @@ RMatrix<T> &operator+=( RMatrix<T> &lhs, const RMatrix<T> &rhs){
 // Subtraction operation of a MATRIX with another MATRIX: matrix3 = matrix1 - matrix2                                                                                                                                                 
 template<class T>
 RMatrix<T> operator-(const RMatrix<T> &lhs, const RMatrix<T> &rhs){
-  if (rhs.get_nrows() != lhs.get_nrows() && rhs.get_ncols() != lhs.get_ncols()){
+  if (rhs.get_nrows() != lhs.get_nrows()  ||  rhs.get_ncols() != lhs.get_ncols()){
     std::cerr<<"\n\nDimension error while subtraction of two matrices! << SUBTRACTION: C = A - B >> \n\n" <<
     "Dimensions of A matrix are not equal to dimensions of B matrix!\n\n"<<std::endl;
     exit(1);}
@@ -221,7 +221,7 @@ RMatrix<T> operator-(const RMatrix<T> &lhs, const RMatrix<T> &rhs){
 // Subtraction operation of a MATRIX with another MATRIX: matrix1 = matrix1 - matrix2: matrix1 -= matrix2
 template<class T>
 RMatrix<T> &operator-=( RMatrix<T> &lhs, const RMatrix<T> &rhs){
-  if (rhs.get_nrows() != lhs.get_nrows() && rhs.get_ncols() != lhs.get_ncols()){
+  if (rhs.get_nrows() != lhs.get_nrows()  ||  rhs.get_ncols() != lhs.get_ncols()){
     std::cerr<<"\n\nDimension error while subtraction of two matrices!  << SUBTRACTION: A -=  B >> \n\n" <<
     "Dimensions of A matrix are not equal to dimensions of B matrix!\n\n"<<std::endl;
     exit(1);}
