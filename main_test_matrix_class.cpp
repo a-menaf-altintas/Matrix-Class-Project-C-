@@ -22,12 +22,19 @@ int main(int argc, char **argv) {
   RMatrix<double> D = C;
 
   A *= B;
+  A.print_matrix();
+  
+
   C(m-1,n-1) = 3.0;
 
+  C.print_matrix();     
 
   RMatrix<double> E = A;
+
   double a = 4.0;
-  E = A / a; 
+
+  E = A / a;
+  E.print_matrix(); 
 
   int length = n;
   //length++;
@@ -36,6 +43,8 @@ int main(int argc, char **argv) {
 
   std::vector<double> new_vec = A * v; // Matrix vector multiplication
 
+  
+
   std::cout << std::endl;
   for (unsigned i=0; i<new_vec.size(); i++) {
       std::cout << new_vec[i] << " ";
@@ -43,22 +52,6 @@ int main(int argc, char **argv) {
    std::cout << std::endl;
    std::cout << std::endl;
 
-
-  for (unsigned i=0; i<C.get_nrows(); i++) {
-    for (unsigned j=0; j<C.get_ncols(); j++) {
-      std::cout << C(i,j) << " ";
-    }
-    std::cout << std::endl;
-  }
-
-  std::cout <<std::endl;
-
-  for (unsigned i=0; i<A.get_nrows(); i++) {
-    for (unsigned j=0; j<A.get_ncols(); j++) {
-      std::cout << A(i,j) << " ";
-    }
-    std::cout << std::endl;
-  }
 
   return 0;
 }

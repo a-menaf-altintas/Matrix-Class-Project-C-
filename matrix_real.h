@@ -4,6 +4,7 @@
 #define  _MATRIX_REAL_HPP_
 #include <iostream>
 #include <string>
+#include <iomanip>
 // STL Containers of the Vector and Array can be used. I will use std::vector
 #include <vector> 
 //#include <valarray>
@@ -27,6 +28,9 @@ class RMatrix{
     // Getters for the number of the row and column                                                                                                                                                                                            
         unsigned get_nrows() const;
         unsigned get_ncols() const;
+
+    // Print the matrix
+    void print_matrix();
 
 
     // Access the to the  elements  of the matrix                                                                                                                                                                                             
@@ -110,6 +114,28 @@ template<class T>
 unsigned RMatrix<T>::get_ncols() const {
   return this->ncols;
 }
+
+// A function to print the matrix.
+template <class T>
+void RMatrix<T>::print_matrix()
+{
+	unsigned nRows = this->get_nrows();
+	unsigned nCols = this->get_ncols();
+
+  std::cout << std::endl;
+	for (unsigned row = 0; row<nRows; ++row)
+  {
+	  for (unsigned col = 0; col<nCols; ++col)
+    {
+	    std::cout << std::fixed << std::setprecision(2) << this->matrix[row][col] << "  ";
+    }
+	std::cout << std::endl;
+	}
+    
+}
+
+
+
 
 // Access the to the  elements  of the matrix 
 template<class T>
