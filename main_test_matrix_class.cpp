@@ -11,14 +11,14 @@ using namespace std::complex_literals;
 int main(int argc, char **argv) {
   int n=3;
   int m=3;
-  RMatrix<double> A(n, n, 5.0);
-  RMatrix<double> B(m, m, 3.1);
+  RMatrix<double> A(n, n, 2);
+  RMatrix<double> B(m, m, 2);
 
 
-  RMatrix<double> C = A - B;
+  RMatrix<double> C = A * B;
   RMatrix<double> D = C;
 
-  A -= B;
+  A *= B;
   C(0,0) = 3.0;
 
 

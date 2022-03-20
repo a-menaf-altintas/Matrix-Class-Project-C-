@@ -30,8 +30,8 @@ class RMatrix{
 
 
     // Access the to the  elements  of the matrix                                                                                                                                                                                             
-    T &operator()(const unsigned &numberOfRows, const unsigned &numberOfColumns);
-    const T &operator()(const unsigned &numberOfRows, const unsigned &numberOfColumns) const;    
+    T &operator()(const unsigned &numberOfRows, const unsigned &numberOfColumns); // Can be modified
+    const T &operator()(const unsigned &numberOfRows, const unsigned &numberOfColumns) const; // Read only   
 
 
     // Operator overloading
@@ -43,11 +43,9 @@ class RMatrix{
     template <class Y> friend RMatrix<Y> &operator+=( RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix1 = matrix1 + matrix2
     template <class Y> friend RMatrix<Y> operator-(const RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix3 = matrix1 - matrix2
     template <class Y> friend RMatrix<Y> &operator-=( RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix1 = matrix1 - matrix2
+    template <class Y> friend RMatrix<Y> operator*(const RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix3 = matrix1 * matrix2
+    template <class Y> friend RMatrix<Y> &operator*=( RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix1 = matrix1 * matrix2
 
-
-
-    RMatrix<T> operator*( const RMatrix<T> &rhs); // matrix3 = matrix1 * matrix2
-    RMatrix<T> &operator*=( const RMatrix<T> & rhs); // matrix1 = matrix1 * matrix2
     
 
     // Basic binary aritmethic operation of a MATRIX with a scalar 
@@ -240,17 +238,21 @@ RMatrix<T> &operator-=( RMatrix<T> &lhs, const RMatrix<T> &rhs){
 
 // Multiplication operation of a MATRIX with another MATRIX: matrix3 = matrix1 * matrix2                                                                                                                                                 
 template<class T>
-RMatrix<T> RMatrix<T>::operator*(const RMatrix<T> &rhs) {
-    unsigned nrows = rhs.get_nrows();
+RMatrix<T> operator*(const RMatrix<T> &lhs, const RMatrix<T> &rhs) {
+  if (rhs.get_nrows() != lhs.get_ncols()){
+    std::cerr<<"\n\nDimension error while multiplication of two matrices! << MULTIPLICATION: C = A * B >> \n\n" <<
+    "Number of colmns of A matrix must be equal to number of rows of B matrix!\n\n"<<std::endl;
+    exit(1);}
     unsigned ncols = rhs.get_ncols();
+    unsigned nrows = lhs.get_nrows();
 
-    RMatrix new_matrix(nrows, ncols, 0.0); // A new matrix will be created after multiplication
+    RMatrix<T> new_matrix(nrows, ncols, 0.0); // A new matrix will be created after multiplication
 
 
     for (unsigned i=0; i<nrows; i++) {
         for (unsigned j=0; j<ncols; j++) 
         for (unsigned k=0; k<nrows; k++) {
-        new_matrix(i,j) = new_matrix(i,j) + this->matrix[i][k] * rhs(k,j);
+        new_matrix(i,j) = new_matrix(i,j) + lhs(i,k) * rhs(k,j);
     }
   }
 
@@ -259,10 +261,14 @@ RMatrix<T> RMatrix<T>::operator*(const RMatrix<T> &rhs) {
 
 // Multiplication operation of a MATRIX with another MATRIX: matrix1 = matrix1 * matrix2: matrix1 *= matrix2
 template<class T>
-RMatrix<T> &RMatrix<T>::operator*= (const RMatrix<T> &rhs) {
-    RMatrix new_matrix = (*this) * rhs; // This operation already defined above
-    (*this) = new_matrix;
-    return *this;
+RMatrix<T> &operator*= ( RMatrix<T> &lhs, const RMatrix<T> &rhs) {
+  if (rhs.get_nrows() != lhs.get_ncols()){
+    std::cerr<<"\n\nDimension error while multiplication of two matrices! << MULTIPLICATION: A *= B >> \n\n" <<
+    "Number of colmns of A matrix must be equal to number of rows of B matrix!\n\n"<<std::endl;
+    exit(1);}
+
+    lhs = lhs * rhs; // This operation already defined above
+    return lhs;
 }
 
 
