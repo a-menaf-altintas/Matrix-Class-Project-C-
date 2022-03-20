@@ -41,8 +41,10 @@ class RMatrix{
     // Operations Overloading
     template <class Y> friend RMatrix<Y> operator+(const RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix3 = matrix1 + matrix2
     template <class Y> friend RMatrix<Y> &operator+=( RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix1 = matrix1 + matrix2
+    
     template <class Y> friend RMatrix<Y> operator-(const RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix3 = matrix1 - matrix2
     template <class Y> friend RMatrix<Y> &operator-=( RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix1 = matrix1 - matrix2
+    
     template <class Y> friend RMatrix<Y> operator*(const RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix3 = matrix1 * matrix2
     template <class Y> friend RMatrix<Y> &operator*=( RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix1 = matrix1 * matrix2
 
@@ -112,11 +114,21 @@ unsigned RMatrix<T>::get_ncols() const {
 // Access the to the  elements  of the matrix 
 template<class T>
 T &RMatrix<T>::operator()(const unsigned &numberOfRows, const unsigned &numberOfColumns) {
+  if (numberOfRows >= this->nrows || numberOfColumns >= this->ncols){
+    std::cerr<<"\n\nOut of range error!\n\n" <<
+    "Index is out of range!\n\n"<<std::endl;
+    exit(1);
+  }
   return this->matrix[numberOfRows][numberOfColumns];
 }
 
 template<class T>
 const T &RMatrix<T>::operator()(const unsigned &numberOfRows, const unsigned &numberOfColumns) const {
+  if (numberOfRows >= this->nrows || numberOfColumns >= this->ncols){
+    std::cerr<<"\n\nOut of range error!\n\n" <<
+    "Index is out of range!\n\n"<<std::endl;
+    exit(1);
+  }
   return this->matrix[numberOfRows][numberOfColumns];
 }
 
