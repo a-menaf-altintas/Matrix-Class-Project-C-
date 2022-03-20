@@ -10,9 +10,9 @@ using namespace std::complex_literals;
 
 int main(int argc, char **argv) {
   int n=3;
-  int m=3;
-  RMatrix<double> A(n, n, 2);
-  RMatrix<double> B(m, m, 2);
+  int m=4;
+  RMatrix<double> A(m, n, 2);
+  RMatrix<double> B(n, n, 2);
 
 
   RMatrix<double> C = A * B;
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
   double a = 4.0;
   E = A / a; 
 
-  int length = E.get_ncols();
+  int length = 3;
   //length++;
   //length--;
   std::vector<double> v(length, 2.0);
@@ -34,8 +34,8 @@ int main(int argc, char **argv) {
   std::vector<double> new_vec = A * v; // Matrix vector multiplication
 
   std::cout << std::endl;
-  for (unsigned i=0; i<C.get_nrows(); i++) {
-      std::cout << v[i] << " ";
+  for (unsigned i=0; i<new_vec.size(); i++) {
+      std::cout << new_vec[i] << " ";
     }
    std::cout << std::endl;
    std::cout << std::endl;

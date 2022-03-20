@@ -66,7 +66,7 @@ class RMatrix{
     // Basic binary aritmethic operation of a MATRIX with a vector
     // Vector can be only multiplied from right
     // Operations Overloading
-    std::vector<T> operator*(const std::vector<T> &rhs); // matrix2 = matrix1 * vector
+    template <class Y> friend std::vector<Y> operator*(const RMatrix<Y> &lhs, const std::vector<Y> &rhs); // matrix2 = matrix1 * vector
 };
 
 
@@ -245,13 +245,14 @@ RMatrix<T> operator*(const RMatrix<T> &lhs, const RMatrix<T> &rhs) {
     exit(1);}
     unsigned ncols = rhs.get_ncols();
     unsigned nrows = lhs.get_nrows();
+    unsigned nrows_rhs = rhs.get_nrows();
 
     RMatrix<T> new_matrix(nrows, ncols, 0.0); // A new matrix will be created after multiplication
 
 
     for (unsigned i=0; i<nrows; i++) {
         for (unsigned j=0; j<ncols; j++) 
-        for (unsigned k=0; k<nrows; k++) {
+        for (unsigned k=0; k<nrows_rhs; k++) {
         new_matrix(i,j) = new_matrix(i,j) + lhs(i,k) * rhs(k,j);
     }
   }
@@ -262,9 +263,10 @@ RMatrix<T> operator*(const RMatrix<T> &lhs, const RMatrix<T> &rhs) {
 // Multiplication operation of a MATRIX with another MATRIX: matrix1 = matrix1 * matrix2: matrix1 *= matrix2
 template<class T>
 RMatrix<T> &operator*= ( RMatrix<T> &lhs, const RMatrix<T> &rhs) {
-  if (rhs.get_nrows() != lhs.get_ncols()){
+  if ( (rhs.get_nrows() != lhs.get_ncols() ) ||  ( rhs.get_ncols() != rhs.get_nrows() )){
     std::cerr<<"\n\nDimension error while multiplication of two matrices! << MULTIPLICATION: A *= B >> \n\n" <<
-    "Number of colmns of A matrix must be equal to number of rows of B matrix!\n\n"<<std::endl;
+    "Number of colmns of A matrix must be equal to number of rows of B matrix!\n\n"<<
+    "Matrix B should be a square matrix!\n\n"<<std::endl;
     exit(1);}
 
     lhs = lhs * rhs; // This operation already defined above
@@ -386,15 +388,20 @@ RMatrix<T> RMatrix<T>::operator/(const T &rhs) {
 // Multiplication will return a vector
 
 template<class T>
-std::vector<T> RMatrix<T>::operator*(const std::vector<T> &rhs) {
-  if (this->get_ncols() != rhs.size())
-   throw std::invalid_argument("\n\nDimension error! Matrix and vector dimensions do not agree!\n\n");
+std::vector<T> operator*(const RMatrix<T> &lhs, const std::vector<T> &rhs) {
+  if (lhs.get_ncols() != rhs.size()){
+    std::cerr<<"\n\nDimension error while multiplication of a matrix and vector! << MULTIPLICATION: Vec = Mat *  Vec >> \n\n" <<
+    "Number of colmns of a matrix must be equal to number of elements of a vector!\n\n"<<std::endl;
+    exit(1);}
   
-  std::vector<T> new_vector(rhs.size(), 0.0); // A new vector will be created after multiplication
+  unsigned nrows = lhs.get_nrows();
+  unsigned ncols = lhs.get_ncols();
+  std::vector<T> new_vector(nrows, 0.0); // A new vector will be created after multiplication
+  
 
     for (unsigned i=0; i<nrows; i++) {
         for (unsigned j=0; j<ncols; j++) {
-        new_vector[i] = this->matrix[i][j] * rhs[j];
+        new_vector[i] = lhs(i,j) * rhs[j];
     }
   }
 
