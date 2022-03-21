@@ -123,11 +123,11 @@ void RMatrix<T>::print_matrix()
 	unsigned nCols = this->get_ncols();
 
   std::cout << std::endl;
-	for (unsigned row = 0; row<nRows; ++row)
+	for (unsigned row = 0; row<nRows; row++)
   {
-	  for (unsigned col = 0; col<nCols; ++col)
+	  for (unsigned col = 0; col<nCols; col++)
     {
-	    std::cout << std::fixed << std::setprecision(2) << this->matrix[row][col] << "  ";
+	    std::cout <<   this->matrix[row][col] << "  ";
     }
 	std::cout << std::endl;
 	}
@@ -307,7 +307,7 @@ RMatrix<T> &operator*= ( RMatrix<T> &lhs, const RMatrix<T> &rhs) {
     "Matrix B should be a square matrix!\n\n"<<std::endl;
     exit(1);}
 
-    lhs = lhs * rhs; // This operation already defined above
+    lhs = lhs * rhs; // This operation is already defined before
     return lhs;
 }
 

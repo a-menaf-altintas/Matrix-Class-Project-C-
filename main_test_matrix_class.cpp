@@ -11,8 +11,8 @@ using namespace std::complex_literals;
 int main(int argc, char **argv) {
   int n=3;
   int m=4;
-  RMatrix<double> A(m, n, 2);
-  RMatrix<double> B(n, n, 2);
+  RMatrix<double> A(m, n, 2.0);
+  RMatrix<double> B(n, n, 3.0);
   std::cout << "A and B have been initilized" <<std::endl;
 
 
