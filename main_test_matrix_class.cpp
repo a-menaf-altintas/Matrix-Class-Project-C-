@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
   RMatrix<double> D = C;
 
   A *= B;
-  //A.print_matrix();
+  A.print_matrix();
   
 
   C(m-1,n-1) = 3.0;
