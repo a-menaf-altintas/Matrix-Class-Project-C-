@@ -288,8 +288,8 @@ RMatrix<T> operator*(const RMatrix<T> &lhs, const RMatrix<T> &rhs) {
 
     RMatrix<T> new_matrix(nrows, ncols, 0.0); // A new matrix will be created after multiplication
 
-    //#pragma omp target teams distribute parallel for  // GPU
-    #pragma omp parallel for // CPU
+ 
+    #pragma omp parallel for // Outer loop is parallelized by using all cores in the CPU
     for (unsigned i=0; i<nrows; i++) {
         for (unsigned j=0; j<ncols; j++) 
         for (unsigned k=0; k<nrows_rhs; k++) {
