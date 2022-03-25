@@ -4,7 +4,9 @@ This is a matrix class and is written in C++. It contains the matrix operations 
 ### Compiling in Linux
 
 Compile without parallelization:
+
 g++ main_test_matrix_class.cpp
 
-Compile with parallelization OpenMP:
+Compile with parallelization by using OpenMP:
+
 g++ main_test_matrix_class.cpp  -fopenmp
