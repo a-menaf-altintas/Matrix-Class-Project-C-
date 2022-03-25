@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <omp.h> // Parallel for loop by using openMP for matrix maultiplication
 // STL Containers of the Vector and Array can be used. I will use std::vector
 #include <vector> 
 //#include <valarray>
@@ -287,7 +288,8 @@ RMatrix<T> operator*(const RMatrix<T> &lhs, const RMatrix<T> &rhs) {
 
     RMatrix<T> new_matrix(nrows, ncols, 0.0); // A new matrix will be created after multiplication
 
-
+    //#pragma omp target teams distribute parallel for  // GPU
+    #pragma omp parallel for // CPU
     for (unsigned i=0; i<nrows; i++) {
         for (unsigned j=0; j<ncols; j++) 
         for (unsigned k=0; k<nrows_rhs; k++) {
