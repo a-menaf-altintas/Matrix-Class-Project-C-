@@ -4,10 +4,8 @@
 #define  _MATRIX_REAL_HPP_
 #include <iostream>
 #include <string>
-#include <iomanip>
 #include <omp.h> // Parallel for loop by using openMP for matrix maultiplication
-// STL Containers of the Vector and Array can be used. I will use std::vector
-#include <vector> 
+#include <vector> // STL Containers of the Vector and Array can be used. I will use std::vector
 //#include <valarray>
 
 
@@ -34,7 +32,7 @@ class RMatrix{
     void print_matrix();
 
 
-    // Access the to the  elements  of the matrix                                                                                                                                                                                             
+    // Get the  elements  of the matrix                                                                                                                                                                                             
     T &operator()(const unsigned &numberOfRows, const unsigned &numberOfColumns); // Can be modified
     const T &operator()(const unsigned &numberOfRows, const unsigned &numberOfColumns) const; // Read only   
 
@@ -43,7 +41,7 @@ class RMatrix{
     RMatrix<T> &operator=( const RMatrix<T> &rhs); // matrix_lhs = matrix_rhs
 
     // Basic binary aritmethic operation of a MATRIX with another MATRIX 
-    // Operations Overloading
+    // Operator Overloading
     template <class Y> friend RMatrix<Y> operator+(const RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix3 = matrix1 + matrix2
     template <class Y> friend RMatrix<Y> &operator+=( RMatrix<Y> &lhs, const RMatrix<Y> &rhs); //matrix1 = matrix1 + matrix2
     
@@ -56,7 +54,7 @@ class RMatrix{
     
 
     // Basic binary aritmethic operation of a MATRIX with a scalar 
-    // Operations Overloading
+    // Operator Overloading
 
     RMatrix<T> operator+(const T &rhs); // matrix2 = matrix1 + scalar
     template <class Y> friend RMatrix<Y> operator+(const Y &lhs, const RMatrix<Y> &rhs); // matrix2 = scalar + matrix1 
@@ -77,7 +75,7 @@ class RMatrix{
 };
 
 
-/************************< IMPLEMENTATION OF CLASS ATRIBUTES FUCNTIONS AND OPERATORS >***********************************************/
+/************************< IMPLEMENTATION OF CLASS ATRIBUTES, METHODS, AND OPERATORS >***********************************************/
 
 // Implementation of default constructor
 template <class T>  // will take care of data structures                                                                                                                                                      
@@ -116,7 +114,7 @@ unsigned RMatrix<T>::get_ncols() const {
   return this->ncols;
 }
 
-// A function to print the matrix.
+// A method to print the matrix.
 template <class T>
 void RMatrix<T>::print_matrix()
 {
@@ -285,17 +283,19 @@ RMatrix<T> operator*(const RMatrix<T> &lhs, const RMatrix<T> &rhs) {
     unsigned ncols = rhs.get_ncols();
     unsigned nrows = lhs.get_nrows();
     unsigned nrows_rhs = rhs.get_nrows();
+ 
 
     RMatrix<T> new_matrix(nrows, ncols, 0.0); // A new matrix will be created after multiplication
 
- 
-    #pragma omp parallel for // Outer loop is parallelized by using all cores in the CPU.
+  
+    #pragma omp parallel for  // Outer loop is parallelized by using all cores in the CPU.
     for (unsigned i=0; i<nrows; i++) {
-        for (unsigned j=0; j<ncols; j++) 
-        for (unsigned k=0; k<nrows_rhs; k++) {
-        new_matrix(i,j) = new_matrix(i,j) + lhs(i,k) * rhs(k,j);
-    }
-  }
+        for (unsigned j=0; j<ncols; j++){ 
+          for (unsigned k=0; k<nrows_rhs; k++) {
+            new_matrix(i,j) = new_matrix(i,j) + lhs(i,k) * rhs(k,j);
+          }
+        }
+      }
 
   return new_matrix;
 }
